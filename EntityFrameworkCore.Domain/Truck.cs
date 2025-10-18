@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EntityframeworkCore.Data
+namespace EntityFrameworkCore.Domain
 {
-    internal class Class1
+    public class Truck: Vehicle
     {
+        public string? TruckColor { get; set; }
     }
 }

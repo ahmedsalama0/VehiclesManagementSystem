@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace EntityFrameworkCore.Domain
 {
-    internal class Class1
+    public class Motorcycle: Vehicle
     {
+        public bool IsSafe { get; set; }
     }
 }
