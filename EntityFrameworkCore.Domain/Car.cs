@@ -17,6 +17,10 @@ namespace EntityFrameworkCore.Domain
 
     public class Car: Vehicle
     {
-        public CarType? Type { get; set; } 
+        public CarType? Type { get; set; }
+        public override void CalculateRentalFees()
+        {
+            Console.WriteLine("Rental Fees for the Cars = " + 1.6 * 50);
+        }
     }
 }
