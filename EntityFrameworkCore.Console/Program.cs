@@ -1,5 +1,4 @@
 ﻿using EntityframeworkCore.Data;
-using EntityFrameworkCore.Console.Controllers;
 using EntityFrameworkCore.Console.Repository;
 using EntityFrameworkCore.Domain;
 using EntityFrameworkCore.Domain.Interfaces;
