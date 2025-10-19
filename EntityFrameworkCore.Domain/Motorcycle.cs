@@ -8,7 +8,7 @@ namespace EntityFrameworkCore.Domain
 {
     public class Motorcycle: Vehicle
     {
-        public bool IsSafe { get; set; }
+        public bool? IsSafe { get; set; }
         public override void CalculateRentalFees()
         {
             Console.WriteLine("Rental Fess for the Motorcycle is "  + 6.5 * 8 + 150);

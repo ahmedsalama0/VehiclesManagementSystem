@@ -1,9 +1,10 @@
-﻿using EntityframeworkCore.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using EntityframeworkCore.Data;
 using EntityFrameworkCore.Console.Repository;
 using EntityFrameworkCore.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,8 @@ namespace EntityFrameworkCore.Console.Controllers
         public async Task<List<Car>> GetAll()
         {
             return await _context.Set<Car>().ToListAsync();
+          
+
         }
 
         public Car? GetById(int id)
@@ -33,9 +36,22 @@ namespace EntityFrameworkCore.Console.Controllers
             return  _context.Cars.Find(id);
         }
 
+        public List<Car> GetByModelorBrand(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm)) return null;
+            List<Car> carLst = _context.Cars
+                .Where(q => 
+                EF.Functions.Like(q.Model, $"%{searchTerm}")
+                || 
+                EF.Functions.Like(q.Brand, $"%{searchTerm}%"))
+                .ToList();
+                return carLst;
+        }
+
         public async void Add(Car entity)
         {
             await _context.Set<Car>().AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async void Update(Car entity)

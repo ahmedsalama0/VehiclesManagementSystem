@@ -14,16 +14,16 @@ namespace EntityFrameworkCore.Domain
         public string Model { get; set; }
         // public DateTime? Year { get; set; }
         public int? Year { get; set; }
-        public int MaxSpeed { get; set; }
+        public int? MaxSpeed { get; set; }
 
         public abstract void CalculateRentalFees();
 
         public override string ToString()
         {
-            return $"The Vehicle Id = {Id}" +
-                $"Model: {Model}" +
-                $"Brand: {Brand}" +
-                $"Year: {Year}";
+            return $"Id   : {Id}\n" +
+                   $"Model: {Model}\n" +
+                   $"Brand: {Brand}\n" +
+                   $"Year: {Year}\n";
         }
     }
 }

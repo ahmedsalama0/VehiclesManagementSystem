@@ -22,4 +22,8 @@
     <ProjectReference Include="..\EntityframeworkCore.Data\EntityframeworkCore.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
 </Project>

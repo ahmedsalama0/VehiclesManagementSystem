@@ -1,11 +1,28 @@
 ﻿using EntityframeworkCore.Data;
+using EntityFrameworkCore.Console.Controllers;
 using EntityFrameworkCore.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 
 
 using VehicleDbContext context = new VehicleDbContext();
+context.Database.EnsureCreated();
+
 Console.WriteLine("Welcome to our Vehicle Management System:");
+
+//await context.Cars.AddAsync(new Car()
+//{
+//    Id = 452441,
+//    //Name = "Cotrolla",
+//    Brand = "Toyota",
+//    MaxSpeed = 240,
+//    Model = "Corola",
+//    Type = CarType.Sedan,
+//    Year = 2020
+//});
+//await context.SaveChangesAsync();
+  
+
 bool IsFinished = true;
 int userInput;
 while(IsFinished)
@@ -46,14 +63,113 @@ while(IsFinished)
 void HandleCars()
 {
     bool IsFinished = true;
-    Console.WriteLine("");
+    int userChoice = DisplayMenuOptions();
+    if (userChoice == 0)
+        return;
+    var carController = new CarController(context);
+    switch (userChoice) {
+        case 1:
+            List<Car> items = carController.GetAll().Result;
+            if(items.Count == 0 || items == null)
+                Console.WriteLine("No Items To Show!");
+            else
+              DisplayListData<Car>(items);
+            break;
+        case 2:
+            HandleAddition(carController);
+            break;
+
+        case 3:
+            string searchTerm = ReturnSearchKeyword();
+            if(searchTerm == null)
+            {
+                Console.WriteLine("Invalid Input! - Empty Search Term!");
+            }
+            else
+            {
+                List<Car> returnedLst = carController.GetByModelorBrand(searchTerm);
+                if (returnedLst.Count == 0)
+                    Console.WriteLine("No matched items found!");
+                else
+                    DisplayListData(returnedLst);
+            }
+                break;
+    }
 }
-void DisplayMenuOptions()
+
+void DisplayListData<T>(List<T> items)
+{
+    foreach (var item in items)
+    {
+        Console.WriteLine("-----------------------");
+        Console.WriteLine(item.ToString());
+    }
+    Console.WriteLine("-----------------------");
+}
+
+void HandleAddition(CarController c)
+{
+    Console.WriteLine("Enter an Id");
+    int id = int.Parse(Console.ReadLine());
+    Console.WriteLine("Enter a model name:");
+    string model = Console.ReadLine();
+    Console.WriteLine("Enter a Brand name:");
+    string brand = Console.ReadLine();
+    Console.WriteLine("Enter a production year:");
+    int year = int.Parse(Console.ReadLine());
+    Console.WriteLine("Enter a Max Speed:");
+    int maxSpeed = int.Parse(Console.ReadLine());
+
+
+    Car newCar = new Car()
+    {
+        Id = id,
+        Model = model ?? "N/A",
+        Brand = brand ?? "N/A",
+        Year = year,
+        MaxSpeed = maxSpeed,
+        //Type = (CarType)int.Parse((Console.ReadLine()))
+    };
+
+    c.Add(newCar);
+
+}
+
+string? ReturnSearchKeyword()
+{
+    Console.WriteLine("Please enter a brand or a model to search:");
+    string searchTerm = Console.ReadLine();
+    return searchTerm;
+}
+
+
+void HandleMotorcycles()
+{
+    bool IsFinished = true;
+    DisplayMenuOptions();
+    
+}
+
+void HandleTrucks()
+{
+    bool IsFinished = true;
+    DisplayMenuOptions();
+}
+
+int  DisplayMenuOptions()
 {
     Console.WriteLine("1)Retrieve All Data.");
     Console.WriteLine("2)Add New Items.");
     Console.WriteLine("3) search a specific brand or type within this section.");
     Console.WriteLine("4)Remove Vehicle by Id.");
+    int userInput = int.Parse(Console.ReadLine());
+    if (userInput > 4 || userInput < 1)
+    {
+        Console.WriteLine("Wrong Input - Back to the main menu!");
+        return 0;
+    }
+    return userInput;
+
 
 }
 void DisplayOptions()

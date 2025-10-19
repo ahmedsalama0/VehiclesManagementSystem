@@ -42,6 +42,7 @@ namespace EntityFrameworkCore.Console.Repository
 
         public async Task Delete(int id)
         {
+
             var item = this.GetById(id);
             if (item != null)
             {
