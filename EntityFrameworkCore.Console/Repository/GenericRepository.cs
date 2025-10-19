@@ -1,4 +1,6 @@
 ﻿using EntityframeworkCore.Data;
+using EntityFrameworkCore.Domain;
+using EntityFrameworkCore.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EntityFrameworkCore.Console.Repository
 {
-    internal class GenericRepository<TEntity> where TEntity : class
+    internal class GenericRepository<TEntity> where TEntity : class, IVehicle
     {
         public VehicleDbContext _context;
 
@@ -27,6 +29,19 @@ namespace EntityFrameworkCore.Console.Repository
         public TEntity? GetById(int id)
         {
             return _context.Set<TEntity>().Find(id);
+        }
+
+        public List<TEntity> GetByModelorBrand(string searchTerm)
+        {
+            //Empty List
+            if (string.IsNullOrEmpty(searchTerm)) return new List<TEntity>() { };
+            List<TEntity> vehicleLst = _context.Set<TEntity>()
+                .Where(q =>
+                EF.Functions.Like(q.Model, $"%{searchTerm}")
+                ||
+                EF.Functions.Like(q.Brand, $"%{searchTerm}%"))
+                .ToList();
+            return vehicleLst;
         }
 
         public async void Add(TEntity entity)

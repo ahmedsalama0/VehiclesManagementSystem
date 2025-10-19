@@ -1,8 +1,11 @@
 ﻿using EntityframeworkCore.Data;
 using EntityFrameworkCore.Console.Controllers;
+using EntityFrameworkCore.Console.Repository;
 using EntityFrameworkCore.Domain;
+using EntityFrameworkCore.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
+using System.Runtime.InteropServices.Marshalling;
 
 
 using VehicleDbContext context = new VehicleDbContext();
@@ -21,7 +24,7 @@ while(IsFinished)
     if (userInput == 0)
     {
         IsFinished = false;
-        Console.WriteLine("Thank you to use our system, come back again.");
+        Console.WriteLine("Thank you for using our system, come back again.");
     }
     else if (userInput > 4 || userInput < 1)
     {
@@ -69,19 +72,50 @@ void HandleCars()
               DisplayListData<Car>(items);
             break;
         case 2:
-            HandleAddition(carController);
+            //HandleAddition(carController);
             break;
 
         case 3:
-            HandleSearch(carController);
+            //HandleSearch(carController);
                 break;
         case 4:
-            HandleDeletion(carController);
+            //HandleDeletion(carController);
             break;
 
-        case 5:
 
+        default:
             break;
+
+    }
+}
+// T: Car, U: CarController
+void HandleVehicle<T>() where T : Vehicle, EntityFrameworkCore.Domain.Interfaces.IVehicle, new()
+{
+    bool IsFinished = true;
+    int userChoice = DisplayMenuOptions();
+    if (userChoice == 0)
+        return;
+    var vehicleController = new GenericRepository<T>(context);
+    switch (userChoice)
+    {
+        case 1:
+            List<T> items = vehicleController.GetAll().Result;
+            if (items.Count == 0 || items == null)
+                Console.WriteLine("No Items To Show!");
+            else
+                DisplayListData<T>(items);
+            break;
+        case 2:
+            HandleVehicleAddition<T>(vehicleController);
+            break;
+
+        case 3:
+            HandleSearch<T>(vehicleController);
+            break;
+        case 4:
+            HandleDeletion<T>(vehicleController);
+            break;
+
 
         default:
             break;
@@ -90,7 +124,7 @@ void HandleCars()
 }
 
 
-void HandleSearch(CarController carController)
+void HandleSearch<T>(GenericRepository<T> v) where T: Vehicle
 {
     string searchTerm = ReturnSearchKeyword();
     if (searchTerm == null)
@@ -99,7 +133,7 @@ void HandleSearch(CarController carController)
     }
     else
     {
-        List<Car> returnedLst = carController.GetByModelorBrand(searchTerm);
+        List<T> returnedLst = v.GetByModelorBrand(searchTerm);
         if (returnedLst.Count == 0)
             Console.WriteLine("No matched items found!");
         else
@@ -150,7 +184,7 @@ void DisplayListData<T>(List<T> items)
     Console.WriteLine("-----------------------");
 }
 
-void HandleDeletion(CarController c)
+void HandleDeletion<T>(GenericRepository<T> c) where T: Vehicle
 {
     Console.WriteLine("Enter a product Id To Remove:");
     int id = int.Parse(Console.ReadLine());
@@ -167,7 +201,7 @@ void HandleDeletion(CarController c)
 }
 
 
-void HandleAddition(CarController c)
+void HandleVehicleAddition<T>(GenericRepository<T> v) where T : Vehicle, new()
 {
     Console.WriteLine("Enter an Id");
     int id = int.Parse(Console.ReadLine());
@@ -181,7 +215,7 @@ void HandleAddition(CarController c)
     int maxSpeed = int.Parse(Console.ReadLine());
 
 
-    Car newCar = new Car()
+    T newCar = new T()
     {
         Id = id,
         Model = model ?? "N/A",
@@ -191,9 +225,37 @@ void HandleAddition(CarController c)
         //Type = (CarType)int.Parse((Console.ReadLine()))
     };
 
-    c.Add(newCar);
+    v.Add(newCar);
 
 }
+
+//void HandleAddition(CarController c)
+//{
+//    Console.WriteLine("Enter an Id");
+//    int id = int.Parse(Console.ReadLine());
+//    Console.WriteLine("Enter a model name:");
+//    string model = Console.ReadLine();
+//    Console.WriteLine("Enter a Brand name:");
+//    string brand = Console.ReadLine();
+//    Console.WriteLine("Enter a production year:");
+//    int year = int.Parse(Console.ReadLine());
+//    Console.WriteLine("Enter a Max Speed:");
+//    int maxSpeed = int.Parse(Console.ReadLine());
+
+
+//    Car newCar = new Car()
+//    {
+//        Id = id,
+//        Model = model ?? "N/A",
+//        Brand = brand ?? "N/A",
+//        Year = year,
+//        MaxSpeed = maxSpeed,
+//        //Type = (CarType)int.Parse((Console.ReadLine()))
+//    };
+
+//    c.Add(newCar);
+
+//}
 
 string? ReturnSearchKeyword()
 {
