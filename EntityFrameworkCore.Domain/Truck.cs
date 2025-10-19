@@ -12,7 +12,10 @@ namespace EntityFrameworkCore.Domain
 
         public override void CalculateRentalFees()
         {
-            Console.WriteLine("Rental Fees for the truck = " + 8100 * 1.3);
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("Rent Fees for the truck = " + 8100 * 1.3);
+            Console.WriteLine("----------------------------------");
+
         }
     }
 }

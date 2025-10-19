@@ -47,12 +47,13 @@ namespace EntityFrameworkCore.Console.Repository
         public async void Add(TEntity entity)
         {
             await _context.Set<TEntity>().AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async void Update(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            await this.Save();
         }
 
         public async Task Delete(int id)
@@ -62,8 +63,13 @@ namespace EntityFrameworkCore.Console.Repository
             if (item != null)
             {
                 _context.Set<TEntity>().Remove(item);
-                await _context.SaveChangesAsync();
+                await Save();
             }
+        }
+
+        public async Task Save()
+        {
+            await _context.SaveChangesAsync();
         }
 
     }

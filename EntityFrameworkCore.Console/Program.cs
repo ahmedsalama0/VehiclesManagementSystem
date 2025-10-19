@@ -36,15 +36,15 @@ while(IsFinished)
        switch(userInput)
         {
             case 1:
-                HandleCars();
+                HandleVehicle<Car>();
                 break;
 
             case 2:
-                HandleMotorcycles();
+                HandleVehicle<Motorcycle>();
                 break;
 
             case 3:
-                HandleTrucks();
+                HandleVehicle<Truck>();
                 break;
 
             case 4:
@@ -56,38 +56,7 @@ while(IsFinished)
     }
 }
 
-void HandleCars()
-{
-    bool IsFinished = true;
-    int userChoice = DisplayMenuOptions();
-    if (userChoice == 0)
-        return;
-    var carController = new CarController(context);
-    switch (userChoice) {
-        case 1:
-            List<Car> items = carController.GetAll().Result;
-            if(items.Count == 0 || items == null)
-                Console.WriteLine("No Items To Show!");
-            else
-              DisplayListData<Car>(items);
-            break;
-        case 2:
-            //HandleAddition(carController);
-            break;
 
-        case 3:
-            //HandleSearch(carController);
-                break;
-        case 4:
-            //HandleDeletion(carController);
-            break;
-
-
-        default:
-            break;
-
-    }
-}
 // T: Car, U: CarController
 void HandleVehicle<T>() where T : Vehicle, EntityFrameworkCore.Domain.Interfaces.IVehicle, new()
 {
@@ -229,33 +198,7 @@ void HandleVehicleAddition<T>(GenericRepository<T> v) where T : Vehicle, new()
 
 }
 
-//void HandleAddition(CarController c)
-//{
-//    Console.WriteLine("Enter an Id");
-//    int id = int.Parse(Console.ReadLine());
-//    Console.WriteLine("Enter a model name:");
-//    string model = Console.ReadLine();
-//    Console.WriteLine("Enter a Brand name:");
-//    string brand = Console.ReadLine();
-//    Console.WriteLine("Enter a production year:");
-//    int year = int.Parse(Console.ReadLine());
-//    Console.WriteLine("Enter a Max Speed:");
-//    int maxSpeed = int.Parse(Console.ReadLine());
 
-
-//    Car newCar = new Car()
-//    {
-//        Id = id,
-//        Model = model ?? "N/A",
-//        Brand = brand ?? "N/A",
-//        Year = year,
-//        MaxSpeed = maxSpeed,
-//        //Type = (CarType)int.Parse((Console.ReadLine()))
-//    };
-
-//    c.Add(newCar);
-
-//}
 
 string? ReturnSearchKeyword()
 {
@@ -309,52 +252,3 @@ int DisplayOptions()
 
 }
 
-//await context.Cars.AddAsync(new Car()
-//{
-//    Id = 452441,
-//    //Name = "Cotrolla",
-//    Brand = "Toyota",
-//    MaxSpeed = 240,
-//    Model = "Corola",
-//    Type = CarType.Sedan,
-//    Year = 2020
-//});
-//await context.SaveChangesAsync();
-
-
-/*
-await context.Cars.AddAsync(new Car()
-{
-    Id = 452441,
-    Name = "Cotrolla",
-    Brand = "Toyota",
-    MaxSpeed = 240,
-    Model = "Corola",
-    Type = CarType.Sedan,
-    Year = 2020
-});
-await context.SaveChangesAsync();
-
-var r = await  context.Cars.ToListAsync();
-if (r.Count == 0) return;
-foreach(var el in r)
-    Console.WriteLine(el.Brand);
-
-var foundEntity = await context.Cars.FindAsync(452441);
-if(foundEntity != null)
-{
-    foundEntity.Brand = "Toyota Updated";
-    context.Entry(foundEntity).State = EntityState.Modified;
-    await context.SaveChangesAsync();
-}
-    Console.WriteLine(foundEntity.Brand);
-
-Console.WriteLine("Update occurred!");
-context.Entry(foundEntity).State = EntityState.Deleted;
-await context.SaveChangesAsync();
-Console.WriteLine("Delete occured");
-var foundEntity2 = await context.Cars.FindAsync(452441);
-if(foundEntity2 == null)
-    Console.WriteLine("N/A");
-else Console.WriteLine("Found!");
-*/

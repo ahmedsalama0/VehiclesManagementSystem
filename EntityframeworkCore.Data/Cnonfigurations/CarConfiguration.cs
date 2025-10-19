@@ -17,8 +17,8 @@ namespace EntityframeworkCore.Data.Cnonfigurations
                 new Car()
                 {
                     Id = 98,
-                    Brand = "Brand1",
-                    Model = "Model1",
+                    Brand = "CarBrand1",
+                    Model = "CarModel1",
                     Year = 1901,
                     MaxSpeed = 101,
                     Type = CarType.Sedan
@@ -26,8 +26,8 @@ namespace EntityframeworkCore.Data.Cnonfigurations
                 new Car()
                 {
                     Id = 99,
-                    Brand = "Brand2",
-                    Model = "Model2",
+                    Brand = "CarBrand2",
+                    Model = "CarModel2",
                     Year = 1902,
                     MaxSpeed = 102,
                     Type = CarType.Jeep
@@ -35,8 +35,8 @@ namespace EntityframeworkCore.Data.Cnonfigurations
                 new Car()
                 {
                     Id = 97001,
-                    Brand = "Brand3",
-                    Model = "Model3",
+                    Brand = "CarBrand3",
+                    Model = "CarModel3",
                     Year = 1903,
                     MaxSpeed = 103,
                     Type = CarType.SUV

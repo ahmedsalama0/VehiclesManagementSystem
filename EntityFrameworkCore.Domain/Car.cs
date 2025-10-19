@@ -20,7 +20,10 @@ namespace EntityFrameworkCore.Domain
         public CarType? Type { get; set; }
         public  override void CalculateRentalFees()
         {
-            Console.WriteLine("Rental Fees for the Cars = " + 1.6 * 50);
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("Rent Fees for the Cars = " + 1.6 * 50);
+            Console.WriteLine("----------------------------------");
+
         }
     }
 }
