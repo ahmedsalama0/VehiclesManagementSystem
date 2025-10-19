@@ -16,7 +16,7 @@ namespace EntityFrameworkCore.Domain
         public int? Year { get; set; }
         public int? MaxSpeed { get; set; }
 
-        public abstract void CalculateRentalFees();
+        public  abstract void CalculateRentalFees();
 
         public override string ToString()
         {

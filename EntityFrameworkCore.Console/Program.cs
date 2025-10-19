@@ -10,31 +10,20 @@ context.Database.EnsureCreated();
 
 Console.WriteLine("Welcome to our Vehicle Management System:");
 
-//await context.Cars.AddAsync(new Car()
-//{
-//    Id = 452441,
-//    //Name = "Cotrolla",
-//    Brand = "Toyota",
-//    MaxSpeed = 240,
-//    Model = "Corola",
-//    Type = CarType.Sedan,
-//    Year = 2020
-//});
-//await context.SaveChangesAsync();
-  
+
 
 bool IsFinished = true;
 int userInput;
 while(IsFinished)
 {
-    DisplayOptions();
-    userInput = int.Parse(Console.ReadLine());
+    int userImput = DisplayOptions();
+    
     if (userInput == 0)
     {
         IsFinished = false;
         Console.WriteLine("Thank you to use our system, come back again.");
     }
-    else if (userInput > 3 || userInput < 1)
+    else if (userInput > 4 || userInput < 1)
     {
         Console.WriteLine("Incorrect Input! - Please Enter a valid optoin.");
         Console.Clear();
@@ -53,6 +42,10 @@ while(IsFinished)
 
             case 3:
                 HandleTrucks();
+                break;
+
+            case 4:
+                DisplayRentFees();
                 break;
             default:
                 break;
@@ -80,22 +73,72 @@ void HandleCars()
             break;
 
         case 3:
-            string searchTerm = ReturnSearchKeyword();
-            if(searchTerm == null)
-            {
-                Console.WriteLine("Invalid Input! - Empty Search Term!");
-            }
-            else
-            {
-                List<Car> returnedLst = carController.GetByModelorBrand(searchTerm);
-                if (returnedLst.Count == 0)
-                    Console.WriteLine("No matched items found!");
-                else
-                    DisplayListData(returnedLst);
-            }
+            HandleSearch(carController);
                 break;
+        case 4:
+            HandleDeletion(carController);
+            break;
+
+        case 5:
+
+            break;
+
+        default:
+            break;
+
     }
 }
+
+
+void HandleSearch(CarController carController)
+{
+    string searchTerm = ReturnSearchKeyword();
+    if (searchTerm == null)
+    {
+        Console.WriteLine("Invalid Input! - Empty Search Term!");
+    }
+    else
+    {
+        List<Car> returnedLst = carController.GetByModelorBrand(searchTerm);
+        if (returnedLst.Count == 0)
+            Console.WriteLine("No matched items found!");
+        else
+            DisplayListData(returnedLst);
+    }
+}
+
+void DisplayRentFees()
+{
+    Console.WriteLine("Enter an option to Display the Rent Fees (Per Week):");
+    Console.WriteLine("1) Cars");
+    Console.WriteLine("2) Motorcycles");
+    Console.WriteLine("3) Trucks");
+    int userInput = int.Parse(Console.ReadLine());
+    if(userInput < 1 || userInput > 3)
+        Console.WriteLine("Invalid Input!");
+    else
+    {
+        Vehicle v;
+        switch(userInput)
+        {
+            case 1:
+                v = new Car();
+                v.CalculateRentalFees();
+                break;
+            case 2:
+                v = new Motorcycle();
+                v.CalculateRentalFees();
+                break;
+            case 3:
+                v = new Truck();
+                v.CalculateRentalFees();
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 
 void DisplayListData<T>(List<T> items)
 {
@@ -106,6 +149,23 @@ void DisplayListData<T>(List<T> items)
     }
     Console.WriteLine("-----------------------");
 }
+
+void HandleDeletion(CarController c)
+{
+    Console.WriteLine("Enter a product Id To Remove:");
+    int id = int.Parse(Console.ReadLine());
+    Vehicle? item = c.GetById(id);
+    if(item == null)
+        Console.WriteLine("Not Found!");
+    else
+    {
+        c.Delete(id);
+        Console.WriteLine($"Item {id} Delete Successfully!");
+    }
+
+
+}
+
 
 void HandleAddition(CarController c)
 {
@@ -158,10 +218,11 @@ void HandleTrucks()
 
 int  DisplayMenuOptions()
 {
-    Console.WriteLine("1)Retrieve All Data.");
-    Console.WriteLine("2)Add New Items.");
+    Console.WriteLine("1) Retrieve All Data.");
+    Console.WriteLine("2) Add New Items.");
     Console.WriteLine("3) search a specific brand or type within this section.");
-    Console.WriteLine("4)Remove Vehicle by Id.");
+    Console.WriteLine("4) Remove Vehicle by Id.");
+    //Console.WriteLine("4) Display Renting Fees (per week): .");
     int userInput = int.Parse(Console.ReadLine());
     if (userInput > 4 || userInput < 1)
     {
@@ -172,14 +233,32 @@ int  DisplayMenuOptions()
 
 
 }
-void DisplayOptions()
+int DisplayOptions()
 {
     Console.WriteLine("Choose a section:");
     Console.WriteLine("1) Cars");
     Console.WriteLine("2) Motorcycles");
     Console.WriteLine("3) Trucks");
+    Console.WriteLine("4) Rent Fees");
     Console.WriteLine("0) Exit");
+
+    userInput = int.Parse(Console.ReadLine());
+    return userInput;
+
 }
+
+//await context.Cars.AddAsync(new Car()
+//{
+//    Id = 452441,
+//    //Name = "Cotrolla",
+//    Brand = "Toyota",
+//    MaxSpeed = 240,
+//    Model = "Corola",
+//    Type = CarType.Sedan,
+//    Year = 2020
+//});
+//await context.SaveChangesAsync();
+
 
 /*
 await context.Cars.AddAsync(new Car()
