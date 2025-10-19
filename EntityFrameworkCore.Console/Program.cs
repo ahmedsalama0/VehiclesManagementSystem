@@ -57,7 +57,8 @@ while(IsFinished)
 }
 
 
-// T: Car, U: CarController
+///////////////////////////////////////////////
+///// - Helpers
 void HandleVehicle<T>() where T : Vehicle, EntityFrameworkCore.Domain.Interfaces.IVehicle, new()
 {
     bool IsFinished = true;
