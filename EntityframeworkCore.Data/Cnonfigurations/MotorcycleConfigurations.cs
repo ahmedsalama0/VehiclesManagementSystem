@@ -16,7 +16,7 @@ namespace EntityframeworkCore.Data.Cnonfigurations
             builder.HasData(
                 new Motorcycle()
                 {
-                    Id = 55,
+                    Id = 5,
                     Brand = "MotorcycleBrand1",
                     Model = "MotorcycleModel1",
                     Year = 2005,
@@ -24,7 +24,7 @@ namespace EntityframeworkCore.Data.Cnonfigurations
                 },
                 new Motorcycle()
                 {
-                    Id = 131330,
+                    Id = 6,
                     Brand = "MotorcycleBrand2",
                     Model = "MotorcycleModel2",
                     Year = 1974,
@@ -32,7 +32,7 @@ namespace EntityframeworkCore.Data.Cnonfigurations
                 },
                 new Motorcycle()
                 {
-                    Id = 80808,
+                    Id = 7,
                     Brand = "MotorcycleBrand3",
                     Model = "MotorcycleModel3",
                     Year = 1992,

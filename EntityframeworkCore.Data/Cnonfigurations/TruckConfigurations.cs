@@ -16,7 +16,7 @@ namespace EntityframeworkCore.Data.Cnonfigurations
         {
                 builder.HasData(new Truck()
                 {
-                    Id = 987,
+                    Id = 15,
                     Brand = "TruckBrand1",
                     Model = "TruckModel1",
                     Year = 2011,
@@ -24,7 +24,7 @@ namespace EntityframeworkCore.Data.Cnonfigurations
                 },
                 new Truck()
                 {
-                    Id = 465,
+                    Id = 16,
                     Brand = "TruckBrand2",
                     Model = "TruckModel2",
                     Year = 2015,
@@ -32,7 +32,7 @@ namespace EntityframeworkCore.Data.Cnonfigurations
                 },
                 new Truck()
                 {
-                    Id = 1001,
+                    Id = 17,
                     Brand = "TruckBrand3",
                     Model = "TruckeModel3",
                     Year = 2025,

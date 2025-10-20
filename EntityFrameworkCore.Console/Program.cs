@@ -231,8 +231,8 @@ void HandleDeletion<T>(GenericRepository<T> c) where T: Vehicle
 
 void HandleVehicleAddition<T>(GenericRepository<T> v) where T : Vehicle, new()
 {
-    Console.WriteLine("Enter an Id");
-    int id = int.Parse(Console.ReadLine());
+    //Console.WriteLine("Enter an Id");
+    //int id = int.Parse(Console.ReadLine());
     Console.WriteLine("Enter a model name:");
     string model = Console.ReadLine();
     Console.WriteLine("Enter a Brand name:");
@@ -246,7 +246,7 @@ void HandleVehicleAddition<T>(GenericRepository<T> v) where T : Vehicle, new()
 
     T newCar = new T()
     {
-        Id = id,
+        //Id = id,
         Model = model ?? "N/A",
         Brand = brand ?? "N/A",
         Year = year,

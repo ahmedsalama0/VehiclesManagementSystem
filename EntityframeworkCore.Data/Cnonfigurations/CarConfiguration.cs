@@ -16,7 +16,7 @@ namespace EntityframeworkCore.Data.Cnonfigurations
             builder.HasData(
                 new Car()
                 {
-                    Id = 98,
+                    Id = 10,
                     Brand = "CarBrand1",
                     Model = "CarModel1",
                     Year = 1901,
@@ -25,7 +25,7 @@ namespace EntityframeworkCore.Data.Cnonfigurations
                 },
                 new Car()
                 {
-                    Id = 99,
+                    Id = 11,
                     Brand = "CarBrand2",
                     Model = "CarModel2",
                     Year = 1902,
@@ -34,7 +34,7 @@ namespace EntityframeworkCore.Data.Cnonfigurations
                 },
                 new Car()
                 {
-                    Id = 97001,
+                    Id = 12,
                     Brand = "CarBrand3",
                     Model = "CarModel3",
                     Year = 1903,
