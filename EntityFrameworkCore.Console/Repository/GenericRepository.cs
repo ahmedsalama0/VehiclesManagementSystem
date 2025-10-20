@@ -50,10 +50,11 @@ namespace EntityFrameworkCore.Console.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async void Update(TEntity entity)
+        public async Task<string> Update(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             await this.Save();
+            return "Item updated Successfully";
         }
 
         public async Task Delete(int id)

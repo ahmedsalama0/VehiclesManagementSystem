@@ -84,14 +84,73 @@ void HandleVehicle<T>() where T : Vehicle, EntityFrameworkCore.Domain.Interfaces
         case 4:
             HandleDeletion<T>(vehicleController);
             break;
-
+        
+        case 5:
+            HandleUpdate<T>(vehicleController);
+            break;
 
         default:
+            Console.WriteLine("Invalid Iput!");
             break;
 
     }
 }
 
+async void  HandleUpdate<T>(GenericRepository<T> repo) where T: Vehicle
+{
+    Console.WriteLine("This is the Update Section.");
+    Console.WriteLine("Enter an Id of a Vehicle to update its Data:");
+    int id = int.Parse(Console.ReadLine());
+    //Check for the Id existance
+    T? returnedItem = repo.GetById(id);
+    if(returnedItem == null)
+    {
+        Console.WriteLine("No Item matches the entered Id!");
+        Console.WriteLine("Try again with correct data.");
+        return;
+    }
+
+    Console.WriteLine("Update by type new data for the attribute - otherwise press enter:");
+    Console.WriteLine($"Old model name: {returnedItem.Model}");
+    Console.WriteLine("New model name:");
+    string model = Console.ReadLine();
+    Console.WriteLine($"Old brand name: {returnedItem.Brand}");
+    Console.WriteLine("New Brand name:");
+    string brand = Console.ReadLine();
+    Console.WriteLine($"Old production year: {returnedItem.Year}");
+    Console.WriteLine("New production year:");
+    string? userInputYear = Console.ReadLine();
+    int? year;
+    if(string.IsNullOrEmpty(userInputYear))
+    {
+        year = null;
+    }
+    else
+    {
+        year = int.Parse(userInputYear);
+    }
+    Console.WriteLine($"Old Max Speed: {returnedItem.MaxSpeed}");
+    Console.WriteLine("New Max Speed:");
+    int userInputMaxSpeed;
+    int? maxSpeed;
+    if(int.TryParse(Console.ReadLine(), out userInputMaxSpeed))
+    {
+        maxSpeed = userInputMaxSpeed;
+    }
+    else
+    {
+        maxSpeed = null;
+    }
+
+        returnedItem.Model = model ?? returnedItem.Model;
+    returnedItem.Brand = brand ?? returnedItem.Brand;
+    returnedItem.Year = year ?? returnedItem.Year;
+    returnedItem.MaxSpeed = maxSpeed ?? returnedItem.MaxSpeed;
+
+    var responseMsg = await repo.Update(returnedItem);
+    Console.WriteLine(responseMsg);
+
+}
 
 void HandleSearch<T>(GenericRepository<T> v) where T: Vehicle
 {
@@ -183,6 +242,7 @@ void HandleVehicleAddition<T>(GenericRepository<T> v) where T : Vehicle, new()
     Console.WriteLine("Enter a Max Speed:");
     int maxSpeed = int.Parse(Console.ReadLine());
 
+    //Be sure the Id is not already exist.
 
     T newCar = new T()
     {
@@ -208,30 +268,18 @@ string? ReturnSearchKeyword()
 }
 
 
-void HandleMotorcycles()
-{
-    bool IsFinished = true;
-    DisplayMenuOptions();
-    
-}
-
-void HandleTrucks()
-{
-    bool IsFinished = true;
-    DisplayMenuOptions();
-}
-
 int  DisplayMenuOptions()
 {
     Console.WriteLine("1) Retrieve All Data.");
     Console.WriteLine("2) Add New Items.");
     Console.WriteLine("3) search a specific brand or type within this section.");
     Console.WriteLine("4) Remove Vehicle by Id.");
+    Console.WriteLine("5) Edit Vehicle Data:");
     //Console.WriteLine("4) Display Renting Fees (per week): .");
     int userInput = int.Parse(Console.ReadLine());
-    if (userInput > 4 || userInput < 1)
+    if (userInput > 5 || userInput < 1)
     {
-        Console.WriteLine("Wrong Input - Back to the main menu!");
+        Console.WriteLine("Wrong Input - Back to the main menu...");
         return 0;
     }
     return userInput;
